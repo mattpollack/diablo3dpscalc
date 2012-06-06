@@ -28,9 +28,7 @@
 			var stat = parseFloat(mainStat*0.01 + 1);
 			var crit = parseFloat((critChance*0.01)*(critDamage*0.01)*0.5 + 1);
 			var finalDps = parseFloat(attackspeed*damage*stat*crit*passiveDamage);
-
-			document.getElementById('dpslabel').innerText = "Final DPS:" + finalDps.toFixed(0);
-			document.getElementById('errorlabel').innerText = "Validated";
+			document.getElementById('errorlabel').innerText = "Final DPS: " + finalDps.toFixed(0);
 		}
 	}
 </script>
@@ -79,7 +77,7 @@
 		<input type="text" placeholder="MCS" maxlength="4" size="4" name="mainStat" id="mainStat" /></p></br>
 		<p><label for="critDamage">Passive Skill Damage Increase</label>
 		<input type="text" placeholder="PSDI" maxlength="3" size="3" name="passiveDamage" id="passiveDamage" /></p></br>
-		<p><label id="dpslabel">Final DPS: Press Check DPS</label>
+		<p><label id="dpslabel">Press Check DPS</label>
 		<input type="button" value="Check DPS" name="checkdps" id="checkdps" onClick="checkForm(this);" /></p></br>
 	</form>
 	</div>

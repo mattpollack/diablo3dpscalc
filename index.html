@@ -6,19 +6,29 @@
 <link href="styles.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript">
 	function checkForm() {
-		var passiveSkillBoosts = document.getElementById('passiveSkillBoosts').value;
-		var averageWeaponDamage = document.getElementById('averageWeaponDamage').value;
-		var minimumDamageBonus = document.getElementById('minimumDamageBonus').value
-		var maximumDamageBonus = document.getElementById('maximumDamageBonus').value;
-		var weaponDamageMultipliers = document.getElementById('weaponDamageMultipliers').value;
-		var attackSpeed = document.getElementById('attackSpeed').value;
-		var critChance = document.getElementById('critChance').value;
-		var critDamage = document.getElementById('critDamage').value;
-		var mainStat = document.getElementById('mainStat').value;
+		var weaponAttackSpeed = parseFloat(document.getElementById('wepas').value); 
+		var averageWeaponDamage = parseFloat(document.getElementById('averageWeaponDamage').value);
+		var minimumDamageBonus = parseFloat(document.getElementById('minimumDamageBonus').value);
+		var maximumDamageBonus = parseFloat(document.getElementById('maximumDamageBonus').value);
+		var attackSpeedBonus = parseFloat(document.getElementById('attackSpeedBonus').value);
+		var critChance = parseFloat(document.getElementById('critChance').value);
+		var critDamage = parseFloat(document.getElementById('critDamage').value); 
+		var mainStat = parseFloat(document.getElementById('mainStat').value);
 
-		var finalDps = 0;
-		document.getElementById('dpslabel').innerText = "Final DPS: " + finalDps;
-		document.getElementById('errorlabel').innerText = "Validated";
+		if (isNaN(weaponAttackSpeed) || isNaN(averageWeaponDamage) || isNaN(minimumDamageBonus) ||
+			isNaN(maximumDamageBonus) || isNaN(attackSpeedBonus)    || isNaN(critChance)         || 
+			isNaN(critDamage)         || isNaN(mainStat)) {
+
+			document.getElementById('errorlabel').innerText = "Missing data!";
+		} else {
+			var attackspeed = parseFloat(weaponAttackSpeed*(1 + (attackSpeedBonus/100)));
+			var damage = parseFloat(averageWeaponDamage+((minimumDamageBonus+maximumDamageBonus)/2));
+			var criticalBonus = parseFloat((critChance*critDamage)/100); 
+			var finalDps = parseFloat((1 + mainStat/100)*damage*attackspeed);//*(1 + criticalBonus));
+
+			document.getElementById('dpslabel').innerText = finalDps;
+			document.getElementById('errorlabel').innerText = "Validated";
+		}
 	}
 	function checkSave() {
 		if (document.getElementById('saveName').value.length >= 3) {
@@ -36,19 +46,43 @@
 		--------------------------------</br>
 		<label id="errorlabel">Enter your details</label></br>
 		--------------------------------</br>
-		<input type="text" placeholder="Save Name" name="saveName" id="saveName" /></br>
+		<input type="text" placeholder="Build Name" name="saveName" id="saveName" /></br>
 		--------------------------------</br>
-		<input type="text" placeholder="Passive Skill Boosts" name="passiveSkillBoosts" id="passiveSkillBoosts" /></br>
-		<input type="text" placeholder="Average Weapon Damage" name="averageWeaponDamage" id="averageWeaponDamage" /></br>
-		<input type="text" placeholder="Minimum Damage Bonus" name="minimumDamageBonus" id="minimumDamageBonus" />, 
-		<input type="text" placeholder="Maximum Damage Bonus" name="maximumDamageBonus" id="maximumDamageBonus" /></br>
-		<input type="text" placeholder="Damage Multipliers" name="weaponDamageMultipliers" id="weaponDamageMultipliers" /></br>
-		<input type="text" placeholder="Attack Speed" name="attackSpeed" id="attackSpeed" /></br>
-		<input type="text" placeholder="Critical Chance" name="critChance" id="critChance" /></br>
-		<input type="text" placeholder="Critical Damage" name="critDamage" id="critDamage" /></br>
-		<input type="text" placeholder="Main Class Stat" name="mainStat" id="mainStat" /></br>
+		<select name="wepas" id="wepas">
+			<option value="1.3">Axe</option>
+			<option value="1.1">2h Axe</option>
+			<option value="1.4">Bow</option>
+            <option value="1.4">Ceremonial Knife</option>
+			<option value="1.1">Crossbow</option>
+			<option value="1.5">Dagger</option>
+			<option value="1.1">Daibo</option>
+            <option value="1.4">Fist Weapon</option>
+			<option value="1.6">Hand Crossbow</option>
+			<option value="1.2">Mace</option>
+			<option value="0.9">2h Mace</option>
+			<option value="1.3">Mighty Weapon</option>
+			<option value="1">2h Mighty Weapon</option>
+			<option value="0.95">Polearm</option>
+			<option value="1">Staff</option>
+			<option value="1.4">Sword</option>
+			<option value="1.1">2h Sword</option>
+			<option value="1.4">Wand</option>
+		</select></br>
+		<label for="averageWeaponDamage">Average Weapon Damage</label>
+		<input type="text" placeholder="" name="averageWeaponDamage" id="averageWeaponDamage" /></br>
+		<label for="minimumDamageBonus">Minimum, Maximum Damage Bonus</label>
+		<input type="text" placeholder="" maxlength="4" size="4" name="minimumDamageBonus" id="minimumDamageBonus" />,
+		<input type="text" placeholder="" maxlength="4" size="4" name="maximumDamageBonus" id="maximumDamageBonus" /></br>
+		<label for="attackSpeedBonus">Attack Speed Bonus</label>
+		<input type="text" placeholder="" name="attackSpeedBonus" id="attackSpeedBonus" /></br>
+		<label for="critChance">Critical Chance</label>
+		<input type="text" placeholder="" maxlength="3" size="3" name="critChance" id="critChance" /></br>
+		<label for="critDamage">Critical Damage</label>
+		<input type="text" placeholder="" maxlength="3" size="3" name="critDamage" id="critDamage" /></br>
+		<label for="mainStat">Main Class Stat</label>
+		<input type="text" placeholder="" maxlength="4" size="4" name="mainStat" id="mainStat" /></br>
 		--------------------------------</br>
-		<label id="dpslabel">Final DPS</label></br>
+		<label id="dpslabel">Press check dps to calculate</label></br>
 		--------------------------------</br>
 		<input type="button" value="Check DPS" name="checkdps" id="checkdps" onClick="checkForm(this);" /> | 
 		<input type="button" value="Save Build" name="savebuild" id="savebuild" onClick="checkSave(this);" /><br />

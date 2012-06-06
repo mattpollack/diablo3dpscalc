@@ -27,7 +27,7 @@
 			var damage = parseFloat(((minimumDamage+minimumDamageBonus)+(maximumDamage+maximumDamageBonus))/2);
 			var stat = parseFloat(mainStat*0.01 + 1);
 			var crit = parseFloat((critChance*0.01)*(critDamage*0.01)*0.5 + 1);
-			var finalDps = parseFloat(attackspeed*damage*stat*crit*passiveDamage);
+			var finalDps = parseFloat(attackspeed*damage*stat*crit*(1+passiveDamage/100);
 			document.getElementById('errorlabel').innerText = "Final DPS: " + finalDps.toFixed(0);
 		}
 	}

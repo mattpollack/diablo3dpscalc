@@ -7,47 +7,42 @@
 <script type="text/javascript">
 	function checkForm() {
 		var weaponAttackSpeed = parseFloat(document.getElementById('wepas').value); 
-		var averageWeaponDamage = parseFloat(document.getElementById('averageWeaponDamage').value);
+		var minimumDamage = parseFloat(document.getElementById('minimumDamage').value);
+		var maximumDamage = parseFloat(document.getElementById('maximumDamage').value);
 		var minimumDamageBonus = parseFloat(document.getElementById('minimumDamageBonus').value);
 		var maximumDamageBonus = parseFloat(document.getElementById('maximumDamageBonus').value);
 		var attackSpeedBonus = parseFloat(document.getElementById('attackSpeedBonus').value);
 		var critChance = parseFloat(document.getElementById('critChance').value);
 		var critDamage = parseFloat(document.getElementById('critDamage').value); 
 		var mainStat = parseFloat(document.getElementById('mainStat').value);
+		var passiveDamage = parseFloat(document.getElementById('passiveDamage').value);
 
-		if (isNaN(weaponAttackSpeed) || isNaN(averageWeaponDamage) || isNaN(minimumDamageBonus) ||
-			isNaN(maximumDamageBonus) || isNaN(attackSpeedBonus)    || isNaN(critChance)         || 
-			isNaN(critDamage)         || isNaN(mainStat)) {
+		if (isNaN(weaponAttackSpeed) || isNaN(minimumDamageBonus) || isNaN(maximumDamageBonus) || 
+			isNaN(attackSpeedBonus)  || isNaN(critChance)         || isNaN(minimumDamage)      || 
+			isNaN(maximumDamage)     || isNaN(critDamage)         || isNaN(mainStat))           {
 
 			document.getElementById('errorlabel').innerText = "Missing data!";
 		} else {
 			var attackspeed = parseFloat(weaponAttackSpeed*(1 + (attackSpeedBonus/100)));
-			var damage = parseFloat(averageWeaponDamage+((minimumDamageBonus+maximumDamageBonus)/2));
-			var criticalBonus = parseFloat((critChance*critDamage)/100); 
-			var finalDps = parseFloat((1 + mainStat/100)*damage*attackspeed);//*(1 + criticalBonus));
+			var damage = parseFloat(((minimumDamage+minimumDamageBonus)+(maximumDamage+maximumDamageBonus))/2);
+			var stat = parseFloat(mainStat*0.01 + 1);
+			var crit = parseFloat((critChance*0.01)*(critDamage*0.01)*0.5 + 1);
+			var finalDps = parseFloat(attackspeed*damage*stat*crit*passiveDamage);
 
-			document.getElementById('dpslabel').innerText = finalDps;
+			document.getElementById('dpslabel').innerText = "Final DPS:" + finalDps.toFixed(0);
 			document.getElementById('errorlabel').innerText = "Validated";
-		}
-	}
-	function checkSave() {
-		if (document.getElementById('saveName').value.length >= 3) {
-			document.getElementById('errorlabel').innerText = "Saved Build: " + document.getElementById('saveName').value;
-		} else {
-			document.getElementById('errorlabel').innerText = "Save names must contain more than 3 charactors";
 		}
 	}
 </script>
 </head>
 <body>
 <div class="main" align="center">
-	<div class="mainform">
-	<form name="input" action="" method="post" id="d3dc" name="d3dc">
-		--------------------------------</br>
-		<label id="errorlabel">Enter your details</label></br>
-		--------------------------------</br>
-		<input type="text" placeholder="Build Name" name="saveName" id="saveName" /></br>
-		--------------------------------</br>
+	<div class="mainform"></br>
+	<div class="errorHeader">
+		<label id="errorlabel">Enter your details</label>
+	</div>
+	<form action="" method="post" id="d3dc" name="d3dc">
+		<p><label for="wepas">Choose your weapon</label>
 		<select name="wepas" id="wepas">
 			<option value="1.3">Axe</option>
 			<option value="1.1">2h Axe</option>
@@ -67,26 +62,25 @@
 			<option value="1.4">Sword</option>
 			<option value="1.1">2h Sword</option>
 			<option value="1.4">Wand</option>
-		</select></br>
-		<label for="averageWeaponDamage">Average Weapon Damage</label>
-		<input type="text" placeholder="" name="averageWeaponDamage" id="averageWeaponDamage" /></br>
-		<label for="minimumDamageBonus">Minimum, Maximum Damage Bonus</label>
-		<input type="text" placeholder="" maxlength="4" size="4" name="minimumDamageBonus" id="minimumDamageBonus" />,
-		<input type="text" placeholder="" maxlength="4" size="4" name="maximumDamageBonus" id="maximumDamageBonus" /></br>
-		<label for="attackSpeedBonus">Attack Speed Bonus</label>
-		<input type="text" placeholder="" name="attackSpeedBonus" id="attackSpeedBonus" /></br>
-		<label for="critChance">Critical Chance</label>
-		<input type="text" placeholder="" maxlength="3" size="3" name="critChance" id="critChance" /></br>
-		<label for="critDamage">Critical Damage</label>
-		<input type="text" placeholder="" maxlength="3" size="3" name="critDamage" id="critDamage" /></br>
-		<label for="mainStat">Main Class Stat</label>
-		<input type="text" placeholder="" maxlength="4" size="4" name="mainStat" id="mainStat" /></br>
-		--------------------------------</br>
-		<label id="dpslabel">Press check dps to calculate</label></br>
-		--------------------------------</br>
-		<input type="button" value="Check DPS" name="checkdps" id="checkdps" onClick="checkForm(this);" /> | 
-		<input type="button" value="Save Build" name="savebuild" id="savebuild" onClick="checkSave(this);" /><br />
-		--------------------------------</br>
+		</select></p></br>
+		<p><label for="minimumDamage">Minimum, Maximum Damage</label>
+		<input type="text" placeholder="max" maxlength="4" size="4" name="maximumDamage" id="maximumDamage" />
+		<input type="text" placeholder="min" maxlength="4" size="4" name="minimumDamage" id="minimumDamage" /></p></br>
+		<p><label for="minimumDamageBonus">Minimum, Maximum Damage Bonus</label>
+		<input type="text" placeholder="max" maxlength="4" size="4" name="maximumDamageBonus" id="maximumDamageBonus" />
+		<input type="text" placeholder="min" maxlength="4" size="4" name="minimumDamageBonus" id="minimumDamageBonus" /></p></br>
+		<p><label for="attackSpeedBonus">Attack Speed Bonus</label>
+		<input type="text" placeholder="IAS" maxlength="3" size="3" name="attackSpeedBonus" id="attackSpeedBonus" /></p></br>
+		<p><label for="critChance">Critical Chance</label>
+		<input type="text" placeholder="CC" maxlength="3" size="3" name="critChance" id="critChance" /></p></br>
+		<p><label for="critDamage">Critical Damage</label>
+		<input type="text" placeholder="CD" maxlength="3" size="3" name="critDamage" id="critDamage" /></p></br>
+		<p><label for="mainStat">Main Class Stat</label>
+		<input type="text" placeholder="MCS" maxlength="4" size="4" name="mainStat" id="mainStat" /></p></br>
+		<p><label for="critDamage">Passive Skill Damage Increase</label>
+		<input type="text" placeholder="PSDI" maxlength="3" size="3" name="passiveDamage" id="passiveDamage" /></p></br>
+		<p><label id="dpslabel">Final DPS: Press Check DPS</label>
+		<input type="button" value="Check DPS" name="checkdps" id="checkdps" onClick="checkForm(this);" /></p></br>
 	</form>
 	</div>
 </div>

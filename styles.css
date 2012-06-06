@@ -4,5 +4,35 @@ body {
 	margin:0; 
 	padding:0; 
 	width:100%; 
-	color:#000; 
+	color:#A99877;
+	background-color: #000;
+	background-image: url(./images/bg.jpg);
+	background-position: 50% 87%;
+}
+#d3dc {
+	padding: 20px 20px 40px 20px;
+}
+#d3dc label {
+	float: left;
+}
+#d3dc input {
+	float: right;
+}
+#d3dc select {
+	float: right;
+}
+.mainform {
+	width:400px;
+	background-color: #000;
+	border-style: solid;
+	border-color: #FFF;
+	border-width: 1px;
+	margin-top: 150px;
+}
+.errorHeader {
+	background-color: #4E0000;
+	padding: 10px 0px 10px 0px;
+}
+.dpslabel {
+	float: none;
 }

@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Diablo Skill Calculator</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="styles.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+	function checkForm() {
+		var passiveSkillBoosts = document.getElementById('passiveSkillBoosts').value;
+		var averageWeaponDamage = document.getElementById('averageWeaponDamage').value;
+		var minimumDamageBonus = document.getElementById('minimumDamageBonus').value
+		var maximumDamageBonus = document.getElementById('maximumDamageBonus').value;
+		var weaponDamageMultipliers = document.getElementById('weaponDamageMultipliers').value;
+		var attackSpeed = document.getElementById('attackSpeed').value;
+		var critChance = document.getElementById('critChance').value;
+		var critDamage = document.getElementById('critDamage').value;
+		var mainStat = document.getElementById('mainStat').value;
+
+		var finalDps = 0;
+		document.getElementById('dpslabel').innerText = "Final DPS: " + finalDps;
+		document.getElementById('errorlabel').innerText = "Validated";
+	}
+	function checkSave() {
+		if (document.getElementById('saveName').value.length >= 3) {
+			document.getElementById('errorlabel').innerText = "Saved Build: " + document.getElementById('saveName').value;
+		} else {
+			document.getElementById('errorlabel').innerText = "Save names must contain more than 3 charactors";
+		}
+	}
+</script>
+</head>
+<body>
+<div class="main" align="center">
+	<div class="mainform">
+	<form name="input" action="" method="post" id="d3dc" name="d3dc">
+		--------------------------------</br>
+		<label id="errorlabel">Enter your details</label></br>
+		--------------------------------</br>
+		<input type="text" placeholder="Save Name" name="saveName" id="saveName" /></br>
+		--------------------------------</br>
+		<input type="text" placeholder="Passive Skill Boosts" name="passiveSkillBoosts" id="passiveSkillBoosts" /></br>
+		<input type="text" placeholder="Average Weapon Damage" name="averageWeaponDamage" id="averageWeaponDamage" /></br>
+		<input type="text" placeholder="Minimum Damage Bonus" name="minimumDamageBonus" id="minimumDamageBonus" />, 
+		<input type="text" placeholder="Maximum Damage Bonus" name="maximumDamageBonus" id="maximumDamageBonus" /></br>
+		<input type="text" placeholder="Damage Multipliers" name="weaponDamageMultipliers" id="weaponDamageMultipliers" /></br>
+		<input type="text" placeholder="Attack Speed" name="attackSpeed" id="attackSpeed" /></br>
+		<input type="text" placeholder="Critical Chance" name="critChance" id="critChance" /></br>
+		<input type="text" placeholder="Critical Damage" name="critDamage" id="critDamage" /></br>
+		<input type="text" placeholder="Main Class Stat" name="mainStat" id="mainStat" /></br>
+		--------------------------------</br>
+		<label id="dpslabel">Final DPS</label></br>
+		--------------------------------</br>
+		<input type="button" value="Check DPS" name="checkdps" id="checkdps" onClick="checkForm(this);" /> | 
+		<input type="button" value="Save Build" name="savebuild" id="savebuild" onClick="checkSave(this);" /><br />
+		--------------------------------</br>
+	</form>
+	</div>
+</div>
+</body>
+</html>
